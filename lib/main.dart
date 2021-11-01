@@ -57,16 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  child: FittedBox(
-                    child: FloatingActionButton(
-                        key: const Key(
-                            'counterView_increment_floatingActionButton'),
-                        child: const Icon(Icons.add),
-                        onPressed: () =>
-                            context.read<BlocCounterCubit>().increment()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    child: FittedBox(
+                      child: FloatingActionButton(
+                          child: const Icon(Icons.add),
+                          onPressed: () =>
+                              context.read<BlocCounterCubit>().increment()),
+                    ),
                   ),
                 ),
                 Container(
@@ -74,8 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 40,
                   child: FittedBox(
                     child: FloatingActionButton(
-                        key: const Key(
-                            'counterView_decrement_floatingActionButton'),
                         child: const Icon(Icons.remove),
                         onPressed: () =>
                             context.read<BlocCounterCubit>().decrement()),

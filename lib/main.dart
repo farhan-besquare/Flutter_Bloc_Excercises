@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_excercise/bloc_counter/bloc_counter_cubit.dart';
+import 'package:flutter_bloc_excercise/bloc_input/bloc_input_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,14 +14,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Day 6 Excercise',
-        theme: ThemeData(
-          primarySwatch: Colors.teal,
-        ),
-        home: BlocProvider(
-          create: (context) => BlocCounterCubit(),
-          child: const MyHomePage(title: 'Counter'),
-        ));
+      title: 'Flutter Day 6 Excercise',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => BlocCounterCubit(),
+          ),
+          BlocProvider(
+            create: (context) => BlocInputCubit(),
+          )
+        ],
+        child: const MyHomePage(title: 'Day 6 Excercise'),
+      ),
+    );
   }
 }
 
@@ -34,6 +43,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String input = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +93,53 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            BlocBuilder<BlocInputCubit, String>(
+                bloc: context.read<BlocInputCubit>(),
+                builder: (context, state) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Enter word: ',
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                print(state);
+                                context
+                                    .read<BlocInputCubit>()
+                                    .capitalise(state);
+                              },
+                              icon: const Icon(Icons.check_circle_rounded),
+                            ),
+                          ),
+                          onChanged: (String? value) {
+                            state = value!;
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                }),
+            BlocBuilder(
+                bloc: context.read<BlocInputCubit>(),
+                builder: (context, state) {
+                  return Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      color: Colors.tealAccent,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Text('Capatalised: $state')],
+                    ),
+                  );
+                }),
           ],
         ),
       ),

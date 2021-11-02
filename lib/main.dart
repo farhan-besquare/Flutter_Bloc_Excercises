@@ -61,7 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   BlocBuilder<BlocCounterCubit, int>(builder: (context, state) {
                 return Text(
                   'Counter: $state',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 30, fontWeight: FontWeight.bold),
                 );
               }),
             ),
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
-                  child: Container(
+                  child: SizedBox(
                     height: 40,
                     width: 40,
                     child: FittedBox(
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 40,
                   width: 40,
                   child: FittedBox(
@@ -100,19 +101,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(top: 10, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            top: 50, bottom: 10, left: 40, right: 40),
                         child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: 'Enter word: ',
+                            hintText: 'Enter word ',
                             border: const OutlineInputBorder(),
                             suffixIcon: IconButton(
+                              color: Colors.teal.shade400,
+                              iconSize: 40,
                               onPressed: () {
-                                print(state);
                                 context
                                     .read<BlocInputCubit>()
                                     .capitalise(state);
                               },
-                              icon: const Icon(Icons.check_circle_rounded),
+                              icon: const Icon(Icons.arrow_circle_up_outlined),
                             ),
                           ),
                           onChanged: (String? value) {
@@ -127,16 +130,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 bloc: context.read<BlocInputCubit>(),
                 builder: (context, state) {
                   return Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    height: 50,
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 10, left: 40, right: 40),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black,
                       ),
-                      color: Colors.tealAccent,
+                      color: Colors.teal.shade200,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('Capatalised: $state')],
+                      children: [
+                        Text(
+                          'Caps: $state',
+                          style: const TextStyle(
+                            fontSize: 28,
+                          ),
+                        )
+                      ],
                     ),
                   );
                 }),
